@@ -82,6 +82,12 @@
 			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.opensymphony.quartz</groupId>
+		    <artifactId>quartz-oracle</artifactId>
+		    <version>1.6.1</version>
+		</dependency>
 
 	</dependencies>
 
