@@ -30,6 +30,7 @@ Ext.onReady(function () {
     
     this.titlePath = Ext.create("Ext.Panel",{title :'Home'});
     var itemsM = <%=jsonMenuList%>;
+	var itemsMLength = itemsM.length; // add because changes for clinidata
 	for(i=0; i< itemsM.length; i++){
 		var menuItem = itemsM[i];
 		if(menuItem.itemLabel != null && menuItem.itemLabel == "LANG"){
@@ -51,6 +52,32 @@ Ext.onReady(function () {
 				menuItem.hidden=true;
 			}
 		}
+
+		//*******************************************************************************************
+		//*************************** BEGIN CHANGES FOR CLI ***********************************
+		//*******************************************************************************************
+		// chack if is spago user by role
+		var hasSpagoRole = false;
+		if(Sbi.user.roles && Sbi.user.roles.length > 0){
+			for(k=0; k< Sbi.user.roles.length; k++){
+				var aRole = Sbi.user.roles[k];
+				if(aRole != null && aRole.indexOf('/spagobi/') > -1){
+					hasSpagoRole = true;
+				}
+			}
+		}
+		
+		// hide icon menu, last menuItem is logout and don't have any itemLabel
+		if(hasSpagoRole == false && (menuItem.itemLabel != null || itemsMLength - 1 == i)){
+			if(menuItem.itemLabel == "INFO" || menuItem.itemLabel == "LANG"
+			|| menuItem.itemLabel == "HELP" ||  menuItem.itemLabel == null){
+				menuItem.hidden=true;
+			}
+		}
+		
+		//*******************************************************************************************
+		//*************************** END CHANGES TO CLI **************************************
+		//*******************************************************************************************
 		
 	}
 	function hideItem( menu, e, eOpts){

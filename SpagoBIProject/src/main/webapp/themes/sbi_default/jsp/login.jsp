@@ -352,48 +352,6 @@ a:hover{
 						</td>
 					</tr>
 					<tr>
-						<td></td>
-						<td class='header-title-column-portlet-section-nogrey'>
-							<div class="header-row-portlet-section"
-								style="line-height: 130%; margin-top: 10px; font-size: 9pt;">
-
-								<table style="width: 85% !important">
-									<tr>
-										<td align="center"><a href="#"
-											onclick="setUser('biuser','biuser'); login.submit()"><img
-												src='<%=urlBuilder.getResourceLinkByTheme(request, "/img/wapp/biuser_icon.png", currTheme)%>'
-												width='68px' height='47px' />
-										</a></td>
-										<td align="center"><a href="#"
-											onclick="setUser('bidemo','bidemo'); login.submit()"><img
-												src='<%=urlBuilder.getResourceLinkByTheme(request, "/img/wapp/bidemo_icon.png", currTheme)%>'
-												width='75px' height='47px' />
-										</a></td>
-										<td align="center"><a href="#"
-											onclick="setUser('biadmin','biadmin'); login.submit()"><img
-												src='<%=urlBuilder.getResourceLinkByTheme(request, "/img/wapp/biadmin_icon.png", currTheme)%>'
-												width='69px' height='47px' />
-										</a></td>
-									</tr>
-									<tr>
-										<td align="center"><a href="#"
-											onclick="setUser('biuser','biuser'); login.submit()"><b>biuser/biuser</b>
-										</a></td>
-										<td align="center"><a href="#"
-											onclick="setUser('bidemo','bidemo'); login.submit()"><b>bidemo/bidemo</b>
-										</a></td>
-										<td align="center"><a href="#"
-											onclick="setUser('biadmin','biadmin'); login.submit()"><b>biadmin/biadmin</b>
-										</a></td>
-										
-									</tr>
-								</table>
-
-							</div></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
 						<td>&nbsp;</td>
 						<td style='color: red; font-size: 11pt;'><br /><%=authFailed%></td>
 						<td></td>
