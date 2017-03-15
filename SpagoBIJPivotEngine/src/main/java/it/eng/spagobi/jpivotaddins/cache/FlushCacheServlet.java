@@ -5,9 +5,6 @@
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package it.eng.spagobi.jpivotaddins.cache;
 
-import it.eng.spagobi.jpivotaddins.bean.AnalysisBean;
-import it.eng.spagobi.jpivotaddins.bean.adapter.AnalysisAdapterUtil;
-
 import java.io.IOException;
 
 import javax.servlet.http.HttpServlet;
@@ -15,18 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
+import com.tonbeller.jpivot.chart.ChartComponent;
+import com.tonbeller.jpivot.mondrian.MondrianDrillThrough;
+import com.tonbeller.jpivot.mondrian.MondrianModel;
+import com.tonbeller.jpivot.olap.model.OlapModel;
+import com.tonbeller.jpivot.olap.navi.MdxQuery;
+import com.tonbeller.jpivot.table.TableComponent;
+
+import it.eng.spagobi.jpivotaddins.bean.AnalysisBean;
+import it.eng.spagobi.jpivotaddins.bean.adapter.AnalysisAdapterUtil;
 import mondrian.olap.CacheControl;
 import mondrian.olap.Connection;
 import mondrian.olap.Cube;
 import mondrian.olap.Query;
-
-import org.apache.log4j.Logger;
-
-import com.tonbeller.jpivot.chart.ChartComponent;
-import com.tonbeller.jpivot.mondrian.ScriptableMondrianDrillThrough;
-import com.tonbeller.jpivot.olap.model.OlapModel;
-import com.tonbeller.jpivot.olap.navi.MdxQuery;
-import com.tonbeller.jpivot.table.TableComponent;
 
 public class FlushCacheServlet extends HttpServlet {
 	
@@ -46,25 +46,33 @@ public class FlushCacheServlet extends HttpServlet {
 		session.setAttribute("analysisBean", analysis);
 		
 		// retrieves Mondrian connection
-		ScriptableMondrianDrillThrough smdt = (ScriptableMondrianDrillThrough) olapModel.getExtension("drillThrough");
-		Connection mondrianConnection = smdt.getConnection();
-		// retrieves CacheControl object
-		CacheControl cacheControl = mondrianConnection.getCacheControl(null);
-		// retrieves the MDX query
-		MdxQuery mdxQuery = (MdxQuery) olapModel.getExtension("mdxQuery");
-		Query mondrianQuery = mondrianConnection.parseQuery(mdxQuery.getMdxQuery());
-		// finds the cube in the MDX query
-	    Cube cube = mondrianQuery.getCube();
-	    // flush cache on all measures for that cube
-	    CacheControl.CellRegion measuresRegion = cacheControl.createMeasuresRegion(cube);
-	    cacheControl.flush(measuresRegion);
-	    
-//		Cube[] cubes = mondrianConnection.getSchema().getCubes();
-//		for (int i = 0; i < cubes.length; i++) {
-//			Cube aCube = cubes[i];
-//			CacheControl.CellRegion measuresRegion = cacheControl.createMeasuresRegion(aCube);
-//			cacheControl.flush(measuresRegion);
-//		}
+		MondrianDrillThrough smdt = (MondrianDrillThrough) olapModel.getExtension("drillThrough");
+
+
+		MondrianModel model = (MondrianModel) smdt.getModel();
+
+		if (model != null) {
+			Connection mondrianConnection = model.getConnection();
+
+			//Connection mondrianConnection = smdt.getConnection();
+			// retrieves CacheControl object
+			CacheControl cacheControl = mondrianConnection.getCacheControl(null);
+			// retrieves the MDX query
+			MdxQuery mdxQuery = (MdxQuery) olapModel.getExtension("mdxQuery");
+			Query mondrianQuery = mondrianConnection.parseQuery(mdxQuery.getMdxQuery());
+			// finds the cube in the MDX query
+			Cube cube = mondrianQuery.getCube();
+			// flush cache on all measures for that cube
+			CacheControl.CellRegion measuresRegion = cacheControl.createMeasuresRegion(cube);
+			cacheControl.flush(measuresRegion);
+
+			//		Cube[] cubes = mondrianConnection.getSchema().getCubes();
+			//		for (int i = 0; i < cubes.length; i++) {
+			//			Cube aCube = cubes[i];
+			//			CacheControl.CellRegion measuresRegion = cacheControl.createMeasuresRegion(aCube);
+			//			cacheControl.flush(measuresRegion);
+			//		}
+		}
 		
 		
 		try {
