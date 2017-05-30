@@ -93,7 +93,7 @@ Ext.define('Sbi.widgets.grid.InMemoryPagingGridPanel', {
 
     ,
     loadStore: function(t) {
-    	this.store.loadPage(1);
+    	//this.store.loadPage(1);
     }
 
 //	/**

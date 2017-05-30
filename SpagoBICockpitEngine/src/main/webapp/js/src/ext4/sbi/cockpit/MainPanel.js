@@ -697,7 +697,8 @@ Ext.extend(Sbi.cockpit.MainPanel, Ext.Panel, {
 
 	, onShowFilterEditorWizard: function(){
 		var config = {};
-		config.filters = Sbi.storeManager.getParameters();
+		config.filters = Sbi.storeManager.getParameters();		
+		config.storesList = Sbi.storeManager.getStoreIds();
 		Sbi.trace("[MainPanel.onShowFilterEditorWizard]: config.filters is equal to [" + Sbi.toSource(config.filters) + "]");
 		Sbi.trace("[MainPanel.showFilterEditorWizard]: instatiating the editor");
 		this.filterEditorWizard = Ext.create('Sbi.filters.FilterEditorWizard',config);
