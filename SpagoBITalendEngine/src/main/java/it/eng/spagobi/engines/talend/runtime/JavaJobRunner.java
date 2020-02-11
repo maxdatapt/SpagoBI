@@ -130,8 +130,8 @@ public class JavaJobRunner implements IJobRunner {
 
 		String xmsValue = (config.getJavaCommandOption("Xms") != null ? config.getJavaCommandOption("Xms") : DEFAULT_XMS_VALUE);
 		String xmxValue = (config.getJavaCommandOption("Xmx") != null ? config.getJavaCommandOption("Xmx") : DEFAULT_XMX_VALUE);
-		
-		String catalinabase = (config.getJavaCommandOption("catalinabase") != null ? config.getJavaCommandOption("catalinabase") : DEFAULT_XMX_VALUE);
+
+		String catalinabase = (config.getJavaCommandOption("catalinabase") != null ? config.getJavaCommandOption("catalinabase") : null);
 
 		if (catalinabase != null && catalinabase.trim().length() > 0) {
 			cmd += " -DCATALINA_BASE=" + catalinabase;

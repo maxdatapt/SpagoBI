@@ -27,6 +27,7 @@
 	<java_command>java</java_command>
 	<java_command_option_Xms>256</java_command_option_Xms>
 	<java_command_option_Xmx>1024</java_command_option_Xmx>
+	<java_command_option_catalinabase></java_command_option_catalinabase>
 	
 
 	<!-- ====================================================================================== -->
