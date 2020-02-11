@@ -5,19 +5,6 @@
  * If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package it.eng.spagobi.engines.talend.runtime;
 
-import it.eng.spagobi.engines.talend.TalendEngineConfig;
-import it.eng.spagobi.engines.talend.exception.ContextNotFoundException;
-import it.eng.spagobi.engines.talend.exception.JobExecutionException;
-import it.eng.spagobi.engines.talend.exception.JobNotFoundException;
-import it.eng.spagobi.engines.talend.utils.TalendScriptAccessUtils;
-import it.eng.spagobi.services.proxy.EventServiceProxy;
-import it.eng.spagobi.utilities.assertion.Assert;
-import it.eng.spagobi.utilities.engines.AuditServiceProxy;
-import it.eng.spagobi.utilities.engines.EngineConstants;
-import it.eng.spagobi.utilities.file.FileUtils;
-import it.eng.spagobi.utilities.file.IFileTransformer;
-import it.eng.spagobi.utilities.threadmanager.WorkManager;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,6 +19,19 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.safehaus.uuid.UUIDGenerator;
+
+import it.eng.spagobi.engines.talend.TalendEngineConfig;
+import it.eng.spagobi.engines.talend.exception.ContextNotFoundException;
+import it.eng.spagobi.engines.talend.exception.JobExecutionException;
+import it.eng.spagobi.engines.talend.exception.JobNotFoundException;
+import it.eng.spagobi.engines.talend.utils.TalendScriptAccessUtils;
+import it.eng.spagobi.services.proxy.EventServiceProxy;
+import it.eng.spagobi.utilities.assertion.Assert;
+import it.eng.spagobi.utilities.engines.AuditServiceProxy;
+import it.eng.spagobi.utilities.engines.EngineConstants;
+import it.eng.spagobi.utilities.file.FileUtils;
+import it.eng.spagobi.utilities.file.IFileTransformer;
+import it.eng.spagobi.utilities.threadmanager.WorkManager;
 
 /**
  * @author Andrea Gioia
@@ -130,6 +130,13 @@ public class JavaJobRunner implements IJobRunner {
 
 		String xmsValue = (config.getJavaCommandOption("Xms") != null ? config.getJavaCommandOption("Xms") : DEFAULT_XMS_VALUE);
 		String xmxValue = (config.getJavaCommandOption("Xmx") != null ? config.getJavaCommandOption("Xmx") : DEFAULT_XMX_VALUE);
+		
+		String catalinabase = (config.getJavaCommandOption("catalinabase") != null ? config.getJavaCommandOption("catalinabase") : DEFAULT_XMX_VALUE);
+
+		if (catalinabase != null && catalinabase.trim().length() > 0) {
+			cmd += " -DCATALINA_BASE=" + catalinabase;
+		}
+		
 		cmd += " -Xms" + xmsValue + "M -Xmx" + xmxValue + "M -cp " + classpath + " " + TalendScriptAccessUtils.getExecutableClass(job);
 
 		cmd = cmd + " --context=" + job.getContext();
